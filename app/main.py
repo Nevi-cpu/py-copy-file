@@ -1,11 +1,9 @@
-from typing import Any
-
-
-def copy_file(command: str) -> Any:
+def copy_file(command: str) -> None:
     parts = command.split()
-    source = parts[1]
-    destination = parts[2]
-    if source == destination:
+    if len(parts) != 3 or parts[0] != "cp" or parts[1] == parts[2]:
         return
-    with open(source, "r") as file_in, open(destination, "w") as file_out:
-        file_out.write(file_in.read())
+    try:
+        with open(parts[1], "r") as f_in, open(parts[2], "w") as f_out:
+            f_out.write(f_in.read())
+    except FileNotFoundError:
+        pass
